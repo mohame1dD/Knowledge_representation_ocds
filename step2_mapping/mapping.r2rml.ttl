@@ -1,0 +1,99 @@
+@prefix rr:   <http://www.w3.org/ns/r2rml#> .
+@prefix ppo:  <https://ul.edu.lb/kr/ont/ppo#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix map:  <https://ul.edu.lb/kr/mapping/ppo#> .
+
+#############################################################################
+#  R2RML mapping: database views (load_db.py) -> PPO graph.
+#  IRIs built from DNCP's own ids. Run: python step2_mapping/run_mapping.py
+#  Templates: process/{ocid}  tender/{ocid}  award/{ocid}/{id}
+#             contract/{ocid}/{id}  org/{party id}  method/{slug}
+#############################################################################
+
+map:Process a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery """SELECT ocid, year, buyer_id FROM v_process""" ] ;
+  rr:subjectMap [ rr:template "https://ul.edu.lb/kr/id/py/process/{ocid}" ; rr:class ppo:ProcurementProcess ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:ocid ; rr:objectMap [ rr:column "ocid" ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:bundleYear ; rr:objectMap [ rr:column "year" ; rr:datatype xsd:integer ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:hasTender ; rr:objectMap [ rr:template "https://ul.edu.lb/kr/id/py/tender/{ocid}" ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:hasBuyer ; rr:objectMap [ rr:template "https://ul.edu.lb/kr/id/py/org/{buyer_id}" ] ] .
+
+map:Tender a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery """SELECT * FROM v_tender""" ] ;
+  rr:subjectMap [ rr:template "https://ul.edu.lb/kr/id/py/tender/{ocid}" ; rr:class ppo:Tender ] ;
+  rr:predicateObjectMap [ rr:predicate <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ; rr:objectMap [ rr:column "status_class" ; rr:termType rr:IRI ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:statusCode ; rr:objectMap [ rr:column "status" ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:title ; rr:objectMap [ rr:column "title" ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:category ; rr:objectMap [ rr:column "category" ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:usesMethod ; rr:objectMap [ rr:template "https://ul.edu.lb/kr/id/py/method/{method_slug}" ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:estimatedAmount ; rr:objectMap [ rr:column "estimate" ; rr:datatype xsd:decimal ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:currency ; rr:objectMap [ rr:column "currency" ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:tenderPeriodStart ; rr:objectMap [ rr:column "period_start" ; rr:datatype xsd:dateTime ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:tenderPeriodEnd ; rr:objectMap [ rr:column "period_end" ; rr:datatype xsd:dateTime ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:datePublished ; rr:objectMap [ rr:column "published" ; rr:datatype xsd:dateTime ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:numberOfTenderers ; rr:objectMap [ rr:column "n_tenderers" ; rr:datatype xsd:integer ] ] .
+
+map:Method a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery """SELECT slug AS method_slug, label FROM v_method""" ] ;
+  rr:subjectMap [ rr:template "https://ul.edu.lb/kr/id/py/method/{method_slug}" ; rr:class ppo:ProcurementMethod ] ;
+  rr:predicateObjectMap [ rr:predicate skos:prefLabel ; rr:objectMap [ rr:column "label" ] ] .
+
+map:Tenderer a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery """SELECT ocid, org_id FROM v_tenderer""" ] ;
+  rr:subjectMap [ rr:template "https://ul.edu.lb/kr/id/py/tender/{ocid}" ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:hasTenderer ; rr:objectMap [ rr:template "https://ul.edu.lb/kr/id/py/org/{org_id}" ] ] .
+
+map:Award a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery """SELECT * FROM v_award""" ] ;
+  rr:subjectMap [ rr:template "https://ul.edu.lb/kr/id/py/award/{ocid}/{id}" ; rr:class ppo:Award ] ;
+  rr:predicateObjectMap [ rr:predicate <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ; rr:objectMap [ rr:column "status_class" ; rr:termType rr:IRI ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:statusCode ; rr:objectMap [ rr:column "status" ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:awardDate ; rr:objectMap [ rr:column "date" ; rr:datatype xsd:dateTime ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:amount ; rr:objectMap [ rr:column "amount" ; rr:datatype xsd:decimal ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:currency ; rr:objectMap [ rr:column "currency" ] ] .
+
+map:ProcessAward a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery """SELECT ocid, id FROM v_award""" ] ;
+  rr:subjectMap [ rr:template "https://ul.edu.lb/kr/id/py/process/{ocid}" ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:hasAward ; rr:objectMap [ rr:template "https://ul.edu.lb/kr/id/py/award/{ocid}/{id}" ] ] .
+
+map:TenderAward a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery """SELECT ocid, id FROM v_award""" ] ;
+  rr:subjectMap [ rr:template "https://ul.edu.lb/kr/id/py/tender/{ocid}" ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:resultsInAward ; rr:objectMap [ rr:template "https://ul.edu.lb/kr/id/py/award/{ocid}/{id}" ] ] .
+
+map:Supplier a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery """SELECT ocid, award_id, org_id FROM v_supplier""" ] ;
+  rr:subjectMap [ rr:template "https://ul.edu.lb/kr/id/py/award/{ocid}/{award_id}" ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:awardedTo ; rr:objectMap [ rr:template "https://ul.edu.lb/kr/id/py/org/{org_id}" ] ] .
+
+map:Contract a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery """SELECT * FROM v_contract""" ] ;
+  rr:subjectMap [ rr:template "https://ul.edu.lb/kr/id/py/contract/{ocid}/{id}" ; rr:class ppo:Contract ] ;
+  rr:predicateObjectMap [ rr:predicate <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ; rr:objectMap [ rr:column "status_class" ; rr:termType rr:IRI ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:basedOnAward ; rr:objectMap [ rr:template "https://ul.edu.lb/kr/id/py/award/{ocid}/{award_id}" ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:statusCode ; rr:objectMap [ rr:column "status" ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:dateSigned ; rr:objectMap [ rr:column "signed" ; rr:datatype xsd:dateTime ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:periodStart ; rr:objectMap [ rr:column "period_start" ; rr:datatype xsd:dateTime ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:periodEnd ; rr:objectMap [ rr:column "period_end" ; rr:datatype xsd:dateTime ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:amount ; rr:objectMap [ rr:column "amount" ; rr:datatype xsd:decimal ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:currency ; rr:objectMap [ rr:column "currency" ] ] .
+
+map:ProcessContract a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery """SELECT ocid, id FROM v_contract""" ] ;
+  rr:subjectMap [ rr:template "https://ul.edu.lb/kr/id/py/process/{ocid}" ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:hasContract ; rr:objectMap [ rr:template "https://ul.edu.lb/kr/id/py/contract/{ocid}/{id}" ] ] .
+
+map:Organization a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery """SELECT * FROM v_org""" ] ;
+  rr:subjectMap [ rr:template "https://ul.edu.lb/kr/id/py/org/{id}" ; rr:class ppo:Organization ] ;
+  rr:predicateObjectMap [ rr:predicate rdfs:label ; rr:objectMap [ rr:column "name" ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:identifier ; rr:objectMap [ rr:column "identifier_id" ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:identifierScheme ; rr:objectMap [ rr:column "identifier_scheme" ] ] ;
+  rr:predicateObjectMap [ rr:predicate ppo:country ; rr:objectMap [ rr:column "country" ] ] .
+
+map:OrganizationRef a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery """SELECT org_id FROM v_org_ref""" ] ;
+  rr:subjectMap [ rr:template "https://ul.edu.lb/kr/id/py/org/{org_id}" ; rr:class ppo:Organization ] .

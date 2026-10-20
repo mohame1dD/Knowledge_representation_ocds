@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Git pre-commit hook: rebuild the graph from the database and block the commit on any new
+# SHACL violation. Install with: python tools/install_hook.py
+set -e
+cd "$(git rev-parse --show-toplevel)"
+PY=.venv/bin/python; [ -x "$PY" ] || PY=.venv/Scripts/python.exe; [ -x "$PY" ] || PY=python3
+"$PY" step2_mapping/load_db.py
+"$PY" step2_mapping/run_mapping.py
+"$PY" tools/gate.py

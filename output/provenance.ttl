@@ -1,0 +1,243 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix kp: <https://ul.edu.lb/kr/prov/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kp:graph a prov:Entity ;
+    dcterms:conformsTo <https://ul.edu.lb/kr/ont/ppo/1.1.0> ;
+    dcterms:identifier "sha256:3418f5008809c4b7e9bc70a73ea1f1a938e0e0e1964f81015ae0affcf9bdea7c" ;
+    prov:wasAttributedTo kp:team ;
+    prov:wasGeneratedBy <https://ul.edu.lb/kr/prov/build-2026-10-20T16:53:45+00:00> .
+
+<https://ul.edu.lb/kr/prov/build-2026-10-20T16:53:45+00:00> a prov:Activity ;
+    rdfs:label "step2_mapping: CSV to SQLite (load_db.py), then R2RML with Morph-KGC (run_mapping.py)" ;
+    dcterms:identifier "git not a git checkout" ;
+    prov:endedAtTime "2026-10-20T16:53:45+00:00"^^xsd:dateTime ;
+    prov:used <https://ul.edu.lb/kr/prov/input/2019/awards.csv>,
+        <https://ul.edu.lb/kr/prov/input/2019/awards_suppliers.csv>,
+        <https://ul.edu.lb/kr/prov/input/2019/contracts.csv>,
+        <https://ul.edu.lb/kr/prov/input/2019/contracts_implementation_transactions.csv>,
+        <https://ul.edu.lb/kr/prov/input/2019/main.csv>,
+        <https://ul.edu.lb/kr/prov/input/2019/parties.csv>,
+        <https://ul.edu.lb/kr/prov/input/2019/tender_items.csv>,
+        <https://ul.edu.lb/kr/prov/input/2019/tender_lots.csv>,
+        <https://ul.edu.lb/kr/prov/input/2019/tender_tenderers.csv>,
+        <https://ul.edu.lb/kr/prov/input/2020/awards.csv>,
+        <https://ul.edu.lb/kr/prov/input/2020/awards_suppliers.csv>,
+        <https://ul.edu.lb/kr/prov/input/2020/contracts.csv>,
+        <https://ul.edu.lb/kr/prov/input/2020/contracts_implementation_transactions.csv>,
+        <https://ul.edu.lb/kr/prov/input/2020/main.csv>,
+        <https://ul.edu.lb/kr/prov/input/2020/parties.csv>,
+        <https://ul.edu.lb/kr/prov/input/2020/tender_items.csv>,
+        <https://ul.edu.lb/kr/prov/input/2020/tender_lots.csv>,
+        <https://ul.edu.lb/kr/prov/input/2020/tender_tenderers.csv>,
+        <https://ul.edu.lb/kr/prov/input/2021/awards.csv>,
+        <https://ul.edu.lb/kr/prov/input/2021/awards_suppliers.csv>,
+        <https://ul.edu.lb/kr/prov/input/2021/contracts.csv>,
+        <https://ul.edu.lb/kr/prov/input/2021/contracts_implementation_transactions.csv>,
+        <https://ul.edu.lb/kr/prov/input/2021/main.csv>,
+        <https://ul.edu.lb/kr/prov/input/2021/parties.csv>,
+        <https://ul.edu.lb/kr/prov/input/2021/tender_items.csv>,
+        <https://ul.edu.lb/kr/prov/input/2021/tender_lots.csv>,
+        <https://ul.edu.lb/kr/prov/input/2021/tender_tenderers.csv>,
+        <https://ul.edu.lb/kr/prov/input/2022/awards.csv>,
+        <https://ul.edu.lb/kr/prov/input/2022/awards_suppliers.csv>,
+        <https://ul.edu.lb/kr/prov/input/2022/contracts.csv>,
+        <https://ul.edu.lb/kr/prov/input/2022/contracts_implementation_transactions.csv>,
+        <https://ul.edu.lb/kr/prov/input/2022/main.csv>,
+        <https://ul.edu.lb/kr/prov/input/2022/parties.csv>,
+        <https://ul.edu.lb/kr/prov/input/2022/tender_items.csv>,
+        <https://ul.edu.lb/kr/prov/input/2022/tender_lots.csv>,
+        <https://ul.edu.lb/kr/prov/input/2022/tender_tenderers.csv>,
+        kp:mapping.r2rml.ttl ;
+    prov:wasAssociatedWith kp:team .
+
+<https://ul.edu.lb/kr/prov/input/2019/awards.csv> a prov:Entity ;
+    dcterms:identifier "sha256:ea37196bd44c0a749355d99787ecbabb093cee01450f39334390858c213b3a4b" ;
+    rdfs:comment "13507 lines, bundle year 2019" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2019/awards_suppliers.csv> a prov:Entity ;
+    dcterms:identifier "sha256:7c8d7dc626c1f23b3692bfbddd983949efa797153cd175c215ee78790430021b" ;
+    rdfs:comment "13513 lines, bundle year 2019" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2019/contracts.csv> a prov:Entity ;
+    dcterms:identifier "sha256:041d145af14ce01877b8913082102a5fa603a7ce04fd8cb1b94e5016c9456c15" ;
+    rdfs:comment "13190 lines, bundle year 2019" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2019/contracts_implementation_transactions.csv> a prov:Entity ;
+    dcterms:identifier "sha256:dd492ea95a9d0a1e88e291bf7e59329b3cd9b71e0f402a5f4873ac236b5427e1" ;
+    rdfs:comment "95969 lines, bundle year 2019" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2019/main.csv> a prov:Entity ;
+    dcterms:identifier "sha256:502890c0a37029fe9e2df7ab6fdebd2477b5ed09e40e7c8ef1ad40a1c01a16c2" ;
+    rdfs:comment "14093 lines, bundle year 2019" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2019/parties.csv> a prov:Entity ;
+    dcterms:identifier "sha256:fac436541af647be69c5aa3f60863a45e6d414d62569467209c263f481c5c67a" ;
+    rdfs:comment "86537 lines, bundle year 2019" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2019/tender_items.csv> a prov:Entity ;
+    dcterms:identifier "sha256:11357ead22c29e3ae9dbda6967c61ee16ab7c9be1834f0970b9c1d4a5d4b626c" ;
+    rdfs:comment "214684 lines, bundle year 2019" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2019/tender_lots.csv> a prov:Entity ;
+    dcterms:identifier "sha256:18e82988d2912a15f0614bcf9e4640959c62ca767700fb834126b9b6e8628969" ;
+    rdfs:comment "59563 lines, bundle year 2019" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2019/tender_tenderers.csv> a prov:Entity ;
+    dcterms:identifier "sha256:0e0dfae92552e8dcf2f4d8aa9c30afddc32cd924bd9412b99e6cb3f743b79e03" ;
+    rdfs:comment "24358 lines, bundle year 2019" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2020/awards.csv> a prov:Entity ;
+    dcterms:identifier "sha256:dbb48258117954732dbbbd441f04b6efa22e3bae013936eaf4fcae1d107d299a" ;
+    rdfs:comment "7407 lines, bundle year 2020" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2020/awards_suppliers.csv> a prov:Entity ;
+    dcterms:identifier "sha256:74ae69c9543e53151a5c9e0385cc1c082e0fadaa6a8bdc0858392f3c5193623c" ;
+    rdfs:comment "7509 lines, bundle year 2020" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2020/contracts.csv> a prov:Entity ;
+    dcterms:identifier "sha256:894cc593537f182aefae54104cc4ca799eb6721a5d41c202ac8ccca88f3c77c1" ;
+    rdfs:comment "7196 lines, bundle year 2020" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2020/contracts_implementation_transactions.csv> a prov:Entity ;
+    dcterms:identifier "sha256:d0c8384d1ee8aefcb3bccdce40c4bb86120bf58180b540d6b6440ade6f85b2cf" ;
+    rdfs:comment "37954 lines, bundle year 2020" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2020/main.csv> a prov:Entity ;
+    dcterms:identifier "sha256:4b98597b0c87a7ae9806b9228e3226dd2d6b71e98ad325de1904e5346715d59f" ;
+    rdfs:comment "10270 lines, bundle year 2020" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2020/parties.csv> a prov:Entity ;
+    dcterms:identifier "sha256:d2673787df2f1696fffcb4eba6a761e42cd50f4b6c0d5aa8b9d3b7dd9ffea035" ;
+    rdfs:comment "53512 lines, bundle year 2020" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2020/tender_items.csv> a prov:Entity ;
+    dcterms:identifier "sha256:67390fc6f104bb6e1ada7cab8ac1273179b4ef5cf8c8b67c8e3e9a6c68f9a9d5" ;
+    rdfs:comment "101012 lines, bundle year 2020" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2020/tender_lots.csv> a prov:Entity ;
+    dcterms:identifier "sha256:38b3034f0a98c9408b634c8e693da773b163cb107778e74c185de464afee9974" ;
+    rdfs:comment "31530 lines, bundle year 2020" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2020/tender_tenderers.csv> a prov:Entity ;
+    dcterms:identifier "sha256:8f12fcbb568e394bbe96cbe56deec747375db2c852f5c89bed264a0e97205f11" ;
+    rdfs:comment "12978 lines, bundle year 2020" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2021/awards.csv> a prov:Entity ;
+    dcterms:identifier "sha256:cd4cbc2be20c4d60e96ee51d8a597cca31121d77a51a74e7367492e5b2972dd3" ;
+    rdfs:comment "7427 lines, bundle year 2021" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2021/awards_suppliers.csv> a prov:Entity ;
+    dcterms:identifier "sha256:1bc4a537098259febafd4d767b0d8a19bf1d16555cce55b277ced499167d92dc" ;
+    rdfs:comment "7427 lines, bundle year 2021" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2021/contracts.csv> a prov:Entity ;
+    dcterms:identifier "sha256:e11d8f5553d5895c1caa17e6cb6c9531e807c605390464a52bf3ab6d7d092aed" ;
+    rdfs:comment "7102 lines, bundle year 2021" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2021/contracts_implementation_transactions.csv> a prov:Entity ;
+    dcterms:identifier "sha256:837af3cd0537a88b449b0c7da45153d849353a64a9c9202fa9da00df7d2e0b4b" ;
+    rdfs:comment "40976 lines, bundle year 2021" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2021/main.csv> a prov:Entity ;
+    dcterms:identifier "sha256:17e046e032dc225cbaa0eda10feb90b62e8940698f1f10db5bb6fcd3947a734f" ;
+    rdfs:comment "9276 lines, bundle year 2021" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2021/parties.csv> a prov:Entity ;
+    dcterms:identifier "sha256:3ecc627d95bd7334ca1b1489ae9d1266a236ea5b118ef101b9163101442ba1c7" ;
+    rdfs:comment "53356 lines, bundle year 2021" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2021/tender_items.csv> a prov:Entity ;
+    dcterms:identifier "sha256:ff391358c39a380f2825ebdffa71097a61decda33b43ff17294fcfc38d852f53" ;
+    rdfs:comment "101024 lines, bundle year 2021" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2021/tender_lots.csv> a prov:Entity ;
+    dcterms:identifier "sha256:8c46b59f1855c7db4d7efdd40922190d1d2a36c1af2543621917a696e8240ccf" ;
+    rdfs:comment "34571 lines, bundle year 2021" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2021/tender_tenderers.csv> a prov:Entity ;
+    dcterms:identifier "sha256:4d56a60c8c7b3435884cd9a88e6363ba3d90b529cb87b0d56568e3663e8cc25b" ;
+    rdfs:comment "14905 lines, bundle year 2021" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2022/awards.csv> a prov:Entity ;
+    dcterms:identifier "sha256:f6d42a5f78137bbd03c3b782022f800cef5524ffd7dd08c23e622b4657059f2c" ;
+    rdfs:comment "24171 lines, bundle year 2022" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2022/awards_suppliers.csv> a prov:Entity ;
+    dcterms:identifier "sha256:82f9d8f9939779676eb5c518161455ad616391db696a6f64d9c8f25c57fdc0cd" ;
+    rdfs:comment "24171 lines, bundle year 2022" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2022/contracts.csv> a prov:Entity ;
+    dcterms:identifier "sha256:96db400f6efff9cb3092350f090f2f738d39aacf4b88ec533bb8dfc1fcdc0f52" ;
+    rdfs:comment "22604 lines, bundle year 2022" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2022/contracts_implementation_transactions.csv> a prov:Entity ;
+    dcterms:identifier "sha256:e20da39cb1dc06538145109415b65db7e83af0a50a3560417c65a6373995c4b7" ;
+    rdfs:comment "146718 lines, bundle year 2022" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2022/main.csv> a prov:Entity ;
+    dcterms:identifier "sha256:dfa92bede99e43bf803c3893390c242f46b025123ad82999822424c9766fae7c" ;
+    rdfs:comment "29573 lines, bundle year 2022" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2022/parties.csv> a prov:Entity ;
+    dcterms:identifier "sha256:6610f432c15562765313c839d0c8bd3e7b12d4fa316a699ed7793861dd6f85fb" ;
+    rdfs:comment "172731 lines, bundle year 2022" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2022/tender_items.csv> a prov:Entity ;
+    dcterms:identifier "sha256:130f83eac49496a87f2f480bc679d2f37de467ab7fd2a1c973b94c38a3a647f2" ;
+    rdfs:comment "501592 lines, bundle year 2022" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2022/tender_lots.csv> a prov:Entity ;
+    dcterms:identifier "sha256:e9c4920f82fc3ca28491a29709053e45806d84dae14e4adbf7e89600e63ed5b2" ;
+    rdfs:comment "69755 lines, bundle year 2022" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+<https://ul.edu.lb/kr/prov/input/2022/tender_tenderers.csv> a prov:Entity ;
+    dcterms:identifier "sha256:33e0c1cbc41fd63430b9add6460fcc0c10275d7ed7579b247d593806ded723fa" ;
+    rdfs:comment "47419 lines, bundle year 2022" ;
+    prov:wasDerivedFrom <https://data.open-contracting.org/en/publication/63> .
+
+kp:team a prov:Agent ;
+    rdfs:label "KR project team" .
+
+<https://data.open-contracting.org/en/publication/63> a prov:Entity ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:publisher "Direccion Nacional de Contrataciones Publicas (DNCP), Paraguay" ;
+    dcterms:title "Paraguay DNCP OCDS data, OCP Data Registry" .
+

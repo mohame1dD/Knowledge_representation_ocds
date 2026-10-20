@@ -1,0 +1,128 @@
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix ppo:  <https://ul.edu.lb/kr/ont/ppo#> .
+@prefix pps:  <https://ul.edu.lb/kr/shapes/ppo#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+###########################################################################
+#  SHACL shapes for the 6 selected rules (16 lives in the Step 2 entity resolution).
+#  Violation = the data is wrong and blocks a commit (the gate).
+#  Warning   = real exceptions exist; they go to triage, never block.
+###########################################################################
+
+<https://ul.edu.lb/kr/shapes/ppo> a owl:Ontology ;
+    owl:versionIRI <https://ul.edu.lb/kr/shapes/ppo/1.0.0> ;
+    owl:imports <https://ul.edu.lb/kr/ont/ppo/1.1.0> ;
+    rdfs:comment "Validated against PPO 1.1.0." ;
+    sh:declare [ sh:prefix "ppo" ; sh:namespace "https://ul.edu.lb/kr/ont/ppo#"^^xsd:anyURI ] .
+
+pps:rule a rdf:Property ; rdfs:comment "Constraint-inventory rule id." .
+
+# ---------------------------------------------------------------- Contract
+
+pps:ContractShape a sh:NodeShape ;
+    sh:targetClass ppo:Contract ;
+    rdfs:label "Contract" ;
+
+    # Rule 1: exactly one award, and it is a real Award
+    sh:property [
+        sh:path ppo:basedOnAward ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:class ppo:Award ;
+        sh:severity sh:Violation ;
+        sh:name "rule 1: contract has exactly one award" ;
+        sh:message "Rule 1: a contract must point to exactly one Award." ;
+        pps:rule "1" ] ;
+
+    # Rule 1, second half: that award belongs to the same process
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:severity sh:Violation ;
+        sh:message "Rule 1: the contract's award {?award} is not an award of the contract's own process." ;
+        pps:rule "1" ;
+        sh:prefixes <https://ul.edu.lb/kr/shapes/ppo> ;
+        sh:select """
+            SELECT $this ?award WHERE {
+                $this ppo:basedOnAward ?award .
+                ?p ppo:hasContract $this .
+                FILTER NOT EXISTS { ?p ppo:hasAward ?award }
+            }""" ] ;
+
+    # Rule 6e: one status, and only one. 'terminated' is ClosedContract, never a failure.
+    sh:xone ( [ sh:class ppo:ActiveContract ] [ sh:class ppo:ClosedContract ]
+              [ sh:class ppo:CancelledContract ] [ sh:class ppo:PendingContract ] ) .
+
+
+pps:ClosedContractShape a sh:NodeShape ;
+    sh:targetClass ppo:ClosedContract ;
+    rdfs:label "Closed contract" ;
+    sh:property [
+        sh:path ppo:statusCode ;
+        sh:hasValue "terminated" ;
+        sh:severity sh:Violation ;
+        sh:message "Rule 6e: ClosedContract must carry the OCDS code 'terminated' (and only closed contracts may)." ;
+        pps:rule "6e" ] .
+
+
+pps:Rule9Shape a sh:NodeShape ;
+    sh:targetClass ppo:Contract ;
+    rdfs:label "Rule 9: signed after award (warning)" ;
+    sh:severity sh:Warning ;   # severity is a property of the SHAPE, so warnings get their own shape
+    pps:rule "9" ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "Rule 9: signed {?signed}, but the award is dated {?awarded}." ;
+        pps:rule "9" ;
+        sh:prefixes <https://ul.edu.lb/kr/shapes/ppo> ;
+        sh:select """
+            SELECT $this ?signed ?awarded WHERE {
+                $this ppo:dateSigned ?signed ; ppo:basedOnAward ?a .
+                ?a ppo:awardDate ?awarded .
+                FILTER (?signed < ?awarded)
+            }""" ] .
+
+# ------------------------------------------------------------------- Award
+
+pps:AwardShape a sh:NodeShape ;
+    sh:targetClass ppo:Award ;
+    rdfs:label "Award" ;
+    # Rule 3b: OWL only says a supplier exists. SHACL demands to see it.
+    sh:property [
+        sh:path ppo:awardedTo ;
+        sh:minCount 1 ;
+        sh:class ppo:Organization ;
+        sh:severity sh:Violation ;
+        sh:name "rule 3b: award has a supplier" ;
+        sh:message "Rule 3b: an award must name at least one supplier Organization." ;
+        pps:rule "3b" ] .
+
+# ----------------------------------------------------------------- Process
+
+pps:ProcessShape a sh:NodeShape ;
+    sh:targetClass ppo:ProcurementProcess ;
+    rdfs:label "Procurement process" ;
+    sh:property [
+        sh:path ppo:hasTender ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "A process has exactly one tender." ] .
+
+pps:Rule11Shape a sh:NodeShape ;
+    sh:targetClass ppo:ProcurementProcess ;
+    rdfs:label "Rule 11: awarded at most the estimate (warning)" ;
+    sh:severity sh:Warning ;   # severity is a property of the SHAPE, so warnings get their own shape
+    pps:rule "11" ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "Rule 11: awarded {?awarded} against an estimate of {?estimate}." ;
+        pps:rule "11" ;
+        sh:prefixes <https://ul.edu.lb/kr/shapes/ppo> ;
+        sh:select """
+            SELECT $this (SAMPLE(?e) AS ?estimate) (SUM(?amt) AS ?awarded) WHERE {
+                $this ppo:hasTender/ppo:estimatedAmount ?e ;
+                      ppo:hasAward/ppo:amount ?amt .
+            }
+            GROUP BY $this
+            HAVING (SUM(?amt) > SAMPLE(?e))
+            """ ] .

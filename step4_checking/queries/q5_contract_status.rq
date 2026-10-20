@@ -1,0 +1,11 @@
+# CQ4 / rule 6e: how many contracts are running, closed or cancelled?
+PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?status (COUNT(?c) AS ?n)
+WHERE {
+  VALUES ?status { ppo:ActiveContract ppo:ClosedContract ppo:CancelledContract ppo:PendingContract }
+  ?c a ?status .
+}
+GROUP BY ?status ORDER BY DESC(?n)

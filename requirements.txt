@@ -1,0 +1,23 @@
+# Step 1: data + profiling
+pandas==2.3.3
+numpy==2.3.5
+ydata-profiling==4.18.4
+setuptools<81   # ydata-profiling still imports pkg_resources
+python-dotenv==1.2.2
+requests==2.33.1
+# Step 2: R2RML mapping (database -> RDF)
+# morph-kgc 2.8.1 itself is installed with --no-deps by setup.sh / setup.ps1 / the Dockerfile:
+# it pins falcon<4, and falcon 3 has no Windows build for Python 3.13 (it fails to compile).
+# falcon 4 keeps the one function morph-kgc uses (falcon.uri.encode_value); tested, same output.
+falcon>=4,<5
+duckdb>=0.10,<2
+elementpath>=4,<5
+jsonpath-python>=1.0.6,<2
+pyoxigraph>=0.3,<0.4
+ruamel.yaml>=0.18,<0.19
+SQLAlchemy==2.1.4
+# Steps 3 to 5: reasoner (needs Java), SHACL, SPARQL
+rdflib==7.6.0
+pyshacl==0.40.1
+owlready2==0.51
+owlrl==7.6.2

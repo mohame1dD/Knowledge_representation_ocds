@@ -1,0 +1,263 @@
+@prefix ppo:     <https://ul.edu.lb/kr/ont/ppo#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix org:     <http://www.w3.org/ns/org#> .
+@prefix tbfy:    <http://data.tbfy.eu/ontology/ocds#> .
+@prefix epo:     <http://data.europa.eu/a4g/ontology#> .
+
+###########################################################################
+#  PPO, the Paraguay Procurement Ontology
+#  Knowledge Representation team project, public procurement topic.
+#  One class or property exists only if a competency question needs it.
+###########################################################################
+
+<https://ul.edu.lb/kr/ont/ppo> a owl:Ontology ;
+    owl:versionIRI <https://ul.edu.lb/kr/ont/ppo/1.1.0> ;
+    owl:versionInfo "1.1.0" ;
+    dcterms:title "Paraguay Procurement Ontology (PPO)"@en ;
+    dcterms:description "What the words in Paraguay's DNCP OCDS data mean: processes, tenders, awards, contracts, organisations and their statuses."@en ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:source <https://data.open-contracting.org/en/publication/63> ;
+    ppo:profile "OWL 2 DL. Needed for the qualified cardinality on Contract (exactly one award) and the negated existentials on PlanningTender and UnsuccessfulTender. Checked with HermiT." ;
+    ppo:reuseDecision "We align to the TBFY OCDS ontology (mirrors OCDS, inactive since about 2020) and to the EU eProcurement Ontology ePO 5.2.0 (released October 2025, active) with rdfs:subClassOf. We do not import either: ePO core alone has 150 classes and our competency questions need about 20." ;
+    ppo:competencyQuestion
+        "CQ1 Which suppliers won contracts from a given buyer in a given year, and for how much?" ,
+        "CQ2 Which processes awarded more than their tender estimate, and by how much? (rule 11)" ,
+        "CQ3 Which contracts were signed before their award date? (rule 9)" ,
+        "CQ4 Which contracts are still running, closed, or cancelled? (rule 6e)" ,
+        "CQ5 Which suppliers might be the same company or person under two identifiers? (rule 16)" ,
+        "CQ6 Which companies bid in a tender but did not win?" .
+
+ppo:competencyQuestion a owl:AnnotationProperty ; rdfs:label "competency question"@en .
+ppo:profile            a owl:AnnotationProperty ; rdfs:label "OWL profile decision"@en .
+ppo:reuseDecision      a owl:AnnotationProperty ; rdfs:label "reuse decision"@en .
+ppo:rule               a owl:AnnotationProperty ; rdfs:comment "Which constraint-inventory rule an axiom comes from."@en .
+
+# Annotation words from SKOS and Dublin Core, declared so Protege shows them as annotations
+skos:prefLabel a owl:AnnotationProperty .  skos:definition a owl:AnnotationProperty .
+skos:scopeNote a owl:AnnotationProperty .  dcterms:title a owl:AnnotationProperty .
+dcterms:description a owl:AnnotationProperty .  dcterms:license a owl:AnnotationProperty .
+dcterms:source a owl:AnnotationProperty .
+
+###########################################################################
+#  Core classes
+###########################################################################
+
+ppo:ProcurementProcess a owl:Class ;
+    rdfs:label "Procurement process"@en ;
+    skos:definition "One contracting process, identified by one OCDS ocid, from planning to implementation."@en ;
+    rdfs:subClassOf tbfy:ContractingProcess , epo:Procedure ;
+    rdfs:subClassOf [ a owl:Restriction ; owl:onProperty ppo:hasTender ; owl:maxCardinality 1 ] .
+
+ppo:Tender a owl:Class ;
+    rdfs:label "Tender (call for offers)"@en ;
+    skos:definition "The buyer's call for offers inside a process: method, estimate, tender period and who bid."@en ;
+    skos:scopeNote "NOT aligned to epo:Tender. In ePO a Tender is an offer a company submits; in OCDS the tender is the call for offers. Same word, different thing."@en ;
+    rdfs:subClassOf tbfy:Tender .
+
+ppo:Award a owl:Class ;
+    rdfs:label "Award"@en ;
+    skos:definition "The decision of who wins (part of) a tender and for how much."@en ;
+    rdfs:subClassOf tbfy:Award , epo:AwardOutcome ;
+    rdfs:subClassOf [ a owl:Restriction ; owl:onProperty ppo:awardedTo ; owl:someValuesFrom ppo:Organization ] ;
+    ppo:rule "3b: every award has at least one supplier (0 of 7,427 broken in 2021). Open world: OWL assumes the supplier exists even if the data omits it. The SHACL shape is the check." .
+
+ppo:Contract a owl:Class ;
+    rdfs:label "Contract"@en ;
+    skos:definition "The agreement signed after an award."@en ;
+    rdfs:subClassOf tbfy:Contract , epo:Contract ;
+    rdfs:subClassOf [ a owl:Restriction ; owl:onProperty ppo:basedOnAward ;
+                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass ppo:Award ] ;
+    ppo:rule "1: every contract points to exactly one award of the same process (0 of 7,102 broken in 2021)." .
+
+ppo:Organization a owl:Class ;
+    rdfs:label "Organization"@en ;
+    skos:definition "A company, person or public body taking part in processes. One individual per DNCP party id, shared by every process it appears in."@en ;
+    rdfs:subClassOf tbfy:Organisation , org:Organization .
+
+ppo:ProcurementMethod a owl:Class ;
+    rdfs:label "Procurement method"@en ;
+    skos:definition "How the winner is chosen, as DNCP labels it (Licitación Pública Nacional, Concurso de Ofertas, Contratación Directa, ...)."@en ;
+    skos:scopeNote "Rule 17: 'Contratación Directa' does NOT mean one bidder. In 2021, 2,638 of 3,591 direct contracting tenders had 2 or more tenderers, and DNCP codes the method as 'open'. Never infer competition level from the method name."@en .
+
+[] a owl:AllDisjointClasses ;
+   owl:members ( ppo:ProcurementProcess ppo:Tender ppo:Award ppo:Contract ppo:Organization ppo:ProcurementMethod ) .
+
+###########################################################################
+#  Roles as defined classes (rules 2 and 3): an organisation IS a buyer,
+#  supplier or tenderer because of what it did, never because of a label.
+###########################################################################
+
+ppo:Buyer a owl:Class ;
+    rdfs:label "Buyer"@en ;
+    owl:equivalentClass [ owl:intersectionOf ( ppo:Organization
+        [ a owl:Restriction ; owl:onProperty [ owl:inverseOf ppo:hasBuyer ] ; owl:someValuesFrom ppo:ProcurementProcess ] ) ] ;
+    ppo:rule "3: every buyer is a party with role buyer." .
+
+ppo:Supplier a owl:Class ;
+    rdfs:label "Supplier"@en ;
+    owl:equivalentClass [ owl:intersectionOf ( ppo:Organization
+        [ a owl:Restriction ; owl:onProperty [ owl:inverseOf ppo:awardedTo ] ; owl:someValuesFrom ppo:Award ] ) ] ;
+    ppo:rule "2: every award supplier is a party with role supplier." .
+
+ppo:Tenderer a owl:Class ;
+    rdfs:label "Tenderer"@en ;
+    owl:equivalentClass [ owl:intersectionOf ( ppo:Organization
+        [ a owl:Restriction ; owl:onProperty [ owl:inverseOf ppo:hasTenderer ] ; owl:someValuesFrom ppo:Tender ] ) ] .
+
+###########################################################################
+#  Statuses. Each is defined by its OCDS code, so the reasoner can type a
+#  stage from the code alone, and the codes' meanings are written down.
+###########################################################################
+
+ppo:PlanningTender a owl:Class ; rdfs:label "Planning tender"@en ; rdfs:subClassOf ppo:Tender ;
+    owl:equivalentClass [ owl:intersectionOf ( ppo:Tender [ a owl:Restriction ; owl:onProperty ppo:statusCode ; owl:hasValue "planning" ] ) ] ;
+    rdfs:subClassOf [ owl:complementOf [ a owl:Restriction ; owl:onProperty ppo:resultsInAward ; owl:someValuesFrom ppo:Award ] ] ;
+    skos:definition "Announced in the plan, not yet open for offers. Cannot have an award."@en ;
+    ppo:rule "6c: planning or unsuccessful tenders never have an award (0 of 3,366 broken in 2021)." .
+
+ppo:ActiveTender a owl:Class ; rdfs:label "Active tender"@en ; rdfs:subClassOf ppo:Tender ;
+    owl:equivalentClass [ owl:intersectionOf ( ppo:Tender [ a owl:Restriction ; owl:onProperty ppo:statusCode ; owl:hasValue "active" ] ) ] ;
+    skos:definition "Open for offers or being evaluated."@en .
+
+ppo:CompleteTender a owl:Class ; rdfs:label "Complete tender"@en ; rdfs:subClassOf ppo:Tender ;
+    owl:equivalentClass [ owl:intersectionOf ( ppo:Tender [ a owl:Restriction ; owl:onProperty ppo:statusCode ; owl:hasValue "complete" ] ) ] ;
+    skos:definition "Finished. Normally has an award, but rule 6a shows 267 complete tenders without one in 2021, so this is not an axiom."@en .
+
+ppo:UnsuccessfulTender a owl:Class ; rdfs:label "Unsuccessful tender"@en ; rdfs:subClassOf ppo:Tender ;
+    owl:equivalentClass [ owl:intersectionOf ( ppo:Tender [ a owl:Restriction ; owl:onProperty ppo:statusCode ; owl:hasValue "unsuccessful" ] ) ] ;
+    rdfs:subClassOf [ owl:complementOf [ a owl:Restriction ; owl:onProperty ppo:resultsInAward ; owl:someValuesFrom ppo:Award ] ] ;
+    skos:definition "Closed without a winner. Cannot have an award."@en ;
+    ppo:rule "6c" .
+
+ppo:CancelledTender a owl:Class ; rdfs:label "Cancelled tender"@en ; rdfs:subClassOf ppo:Tender ;
+    owl:equivalentClass [ owl:intersectionOf ( ppo:Tender [ a owl:Restriction ; owl:onProperty ppo:statusCode ; owl:hasValue "cancelled" ] ) ] ;
+    skos:definition "Stopped by the buyer. Rule 6b: 24 cancelled tenders still had an award in 2021, so 'no award' is a SHACL warning, not an axiom."@en .
+
+[] a owl:AllDisjointClasses ;
+   owl:members ( ppo:PlanningTender ppo:ActiveTender ppo:CompleteTender ppo:UnsuccessfulTender ppo:CancelledTender ) .
+
+ppo:ActiveAward a owl:Class ; rdfs:label "Active award"@en ; rdfs:subClassOf ppo:Award ;
+    owl:equivalentClass [ owl:intersectionOf ( ppo:Award [ a owl:Restriction ; owl:onProperty ppo:statusCode ; owl:hasValue "active" ] ) ] .
+ppo:CancelledAward a owl:Class ; rdfs:label "Cancelled award"@en ; rdfs:subClassOf ppo:Award ;
+    owl:equivalentClass [ owl:intersectionOf ( ppo:Award [ a owl:Restriction ; owl:onProperty ppo:statusCode ; owl:hasValue "cancelled" ] ) ] .
+ppo:PendingAward a owl:Class ; rdfs:label "Pending award"@en ; rdfs:subClassOf ppo:Award ;
+    owl:equivalentClass [ owl:intersectionOf ( ppo:Award [ a owl:Restriction ; owl:onProperty ppo:statusCode ; owl:hasValue "pending" ] ) ] .
+ppo:UnsuccessfulAward a owl:Class ; rdfs:label "Unsuccessful award"@en ; rdfs:subClassOf ppo:Award ;
+    owl:equivalentClass [ owl:intersectionOf ( ppo:Award [ a owl:Restriction ; owl:onProperty ppo:statusCode ; owl:hasValue "unsuccessful" ] ) ] .
+
+[] a owl:AllDisjointClasses ;
+   owl:members ( ppo:ActiveAward ppo:CancelledAward ppo:PendingAward ppo:UnsuccessfulAward ) .
+
+ppo:ActiveContract a owl:Class ; rdfs:label "Active contract"@en ; rdfs:subClassOf ppo:Contract ;
+    owl:equivalentClass [ owl:intersectionOf ( ppo:Contract [ a owl:Restriction ; owl:onProperty ppo:statusCode ; owl:hasValue "active" ] ) ] ;
+    skos:definition "Signed and running."@en .
+
+ppo:ClosedContract a owl:Class ;
+    rdfs:label "Closed contract (OCDS code: terminated)"@en ;
+    rdfs:subClassOf ppo:Contract ;
+    owl:equivalentClass [ owl:intersectionOf ( ppo:Contract [ a owl:Restriction ; owl:onProperty ppo:statusCode ; owl:hasValue "terminated" ] ) ] ;
+    skos:definition "A contract that was signed, ran, and has come to a close, whether it finished normally or ended early. This is what the OCDS code 'terminated' means."@en ;
+    skos:scopeNote "Rule 6e. Read as English, 'terminated' sounds like 'failed'. It is not: 3,964 of 3,965 terminated contracts in 2021 sit on an active award. A report counting 'terminated' as failed contracts would be wrong by thousands. There is deliberately no FailedContract class: the data cannot tell a normal close from an early one."@en ;
+    ppo:rule "6e" .
+
+ppo:CancelledContract a owl:Class ; rdfs:label "Cancelled contract"@en ; rdfs:subClassOf ppo:Contract ;
+    owl:equivalentClass [ owl:intersectionOf ( ppo:Contract [ a owl:Restriction ; owl:onProperty ppo:statusCode ; owl:hasValue "cancelled" ] ) ] ;
+    skos:definition "Called off before it ran."@en .
+
+ppo:PendingContract a owl:Class ; rdfs:label "Pending contract"@en ; rdfs:subClassOf ppo:Contract ;
+    owl:equivalentClass [ owl:intersectionOf ( ppo:Contract [ a owl:Restriction ; owl:onProperty ppo:statusCode ; owl:hasValue "pending" ] ) ] ;
+    skos:definition "Awarded, not yet signed."@en .
+
+[] a owl:AllDisjointClasses ;
+   owl:members ( ppo:ActiveContract ppo:ClosedContract ppo:CancelledContract ppo:PendingContract ) .
+
+###########################################################################
+#  Object properties
+###########################################################################
+
+ppo:hasTender a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:label "has tender"@en ; rdfs:domain ppo:ProcurementProcess ; rdfs:range ppo:Tender ;
+    rdfs:subPropertyOf tbfy:hasTender .
+
+ppo:hasBuyer a owl:ObjectProperty ;
+    rdfs:label "has buyer"@en ; rdfs:domain ppo:ProcurementProcess ; rdfs:range ppo:Organization ;
+    rdfs:subPropertyOf tbfy:hasBuyer .
+
+ppo:hasAward a owl:ObjectProperty ;
+    rdfs:label "has award"@en ; rdfs:domain ppo:ProcurementProcess ; rdfs:range ppo:Award ;
+    rdfs:subPropertyOf tbfy:hasAward .
+
+ppo:hasContract a owl:ObjectProperty ;
+    rdfs:label "has contract"@en ; rdfs:domain ppo:ProcurementProcess ; rdfs:range ppo:Contract ;
+    rdfs:subPropertyOf tbfy:hasContract .
+
+ppo:resultsInAward a owl:ObjectProperty ;
+    rdfs:label "results in award"@en ; rdfs:domain ppo:Tender ; rdfs:range ppo:Award .
+
+ppo:awardedTo a owl:ObjectProperty ;
+    rdfs:label "awarded to"@en ; rdfs:domain ppo:Award ; rdfs:range ppo:Organization ;
+    rdfs:subPropertyOf tbfy:hasSupplier .
+
+ppo:basedOnAward a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:label "based on award"@en ; rdfs:domain ppo:Contract ; rdfs:range ppo:Award ;
+    ppo:rule "1" .
+
+ppo:hasTenderer a owl:ObjectProperty ;
+    rdfs:label "has tenderer"@en ; rdfs:domain ppo:Tender ; rdfs:range ppo:Organization .
+
+ppo:usesMethod a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:label "uses method"@en ; rdfs:domain ppo:Tender ; rdfs:range ppo:ProcurementMethod .
+
+ppo:candidateSameAs a owl:ObjectProperty , owl:SymmetricProperty ;
+    rdfs:label "candidate same as"@en ; rdfs:domain ppo:Organization ; rdfs:range ppo:Organization ;
+    skos:definition "Probably the same organisation, on name evidence only. Weaker than owl:sameAs on purpose: it does not merge the two individuals, so a wrong guess cannot spread facts from one company to another."@en ;
+    ppo:rule "16 (entity resolution, Step 2)" .
+
+###########################################################################
+#  Datatype properties
+###########################################################################
+
+ppo:ocid a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "OCDS ocid"@en ;
+    rdfs:domain ppo:ProcurementProcess ; rdfs:range xsd:string .
+ppo:bundleYear a owl:DatatypeProperty ; rdfs:label "bundle year"@en ;
+    rdfs:domain ppo:ProcurementProcess ; rdfs:range xsd:integer ;
+    skos:scopeNote "The yearly file the process came from. The registry splits files by the process's LAST UPDATE date, not its tender date: the 2021 file holds tenders published as early as 2010. Never use this for a time split; use datePublished or tenderPeriodStart."@en .
+ppo:statusCode a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "OCDS status code"@en ; rdfs:range xsd:string .
+ppo:title a owl:DatatypeProperty ; rdfs:label "title"@en ; rdfs:domain ppo:Tender ; rdfs:range xsd:string .
+ppo:category a owl:DatatypeProperty ; rdfs:label "main procurement category"@en ; rdfs:domain ppo:Tender ; rdfs:range xsd:string .
+ppo:estimatedAmount a owl:DatatypeProperty , owl:FunctionalProperty ; rdfs:label "estimated amount"@en ;
+    rdfs:domain ppo:Tender ; rdfs:range xsd:decimal ;
+    skos:scopeNote "The buyer's estimate. Some are placeholders (1 or 2 PYG), which rule 11 triage separates from real overruns."@en .
+ppo:amount a owl:DatatypeProperty ; rdfs:label "amount"@en ; rdfs:range xsd:decimal .
+ppo:currency a owl:DatatypeProperty ; rdfs:label "currency (ISO 4217)"@en ; rdfs:range xsd:string .
+ppo:tenderPeriodStart a owl:DatatypeProperty ; rdfs:label "tender period start"@en ; rdfs:domain ppo:Tender ; rdfs:range xsd:dateTime .
+ppo:tenderPeriodEnd a owl:DatatypeProperty ; rdfs:label "tender period end"@en ; rdfs:domain ppo:Tender ; rdfs:range xsd:dateTime .
+ppo:datePublished a owl:DatatypeProperty ; rdfs:label "date published"@en ; rdfs:domain ppo:Tender ; rdfs:range xsd:dateTime .
+ppo:numberOfTenderers a owl:DatatypeProperty ; rdfs:label "number of tenderers"@en ; rdfs:domain ppo:Tender ; rdfs:range xsd:integer .
+ppo:awardDate a owl:DatatypeProperty ; rdfs:label "award date"@en ; rdfs:domain ppo:Award ; rdfs:range xsd:dateTime .
+ppo:dateSigned a owl:DatatypeProperty ; rdfs:label "date signed"@en ; rdfs:domain ppo:Contract ; rdfs:range xsd:dateTime ;
+    skos:scopeNote "DNCP stores only the day, at 12:00 local time, while award dates carry a real time. A same-day signing can look like 'signed before award' (rule 9)."@en .
+ppo:periodStart a owl:DatatypeProperty ; rdfs:label "contract period start"@en ; rdfs:domain ppo:Contract ; rdfs:range xsd:dateTime .
+ppo:periodEnd a owl:DatatypeProperty ; rdfs:label "contract period end"@en ; rdfs:domain ppo:Contract ; rdfs:range xsd:dateTime .
+ppo:identifier a owl:DatatypeProperty ; rdfs:label "identifier"@en ; rdfs:domain ppo:Organization ; rdfs:range xsd:string ;
+    skos:scopeNote "Usually the RUC tax number (scheme PY-RUC). Rule 16: one person can appear with and without the RUC check digit (3564077 and 3564077-4)."@en .
+ppo:identifierScheme a owl:DatatypeProperty ; rdfs:label "identifier scheme"@en ; rdfs:domain ppo:Organization ; rdfs:range xsd:string .
+ppo:country a owl:DatatypeProperty ; rdfs:label "country"@en ; rdfs:domain ppo:Organization ; rdfs:range xsd:string .
+
+###########################################################################
+#  External terms we align to: declared here, not imported.
+#  step3_ontology/reason.py checks each one really exists in the copies
+#  kept in external/ (TBFY OCDS ontology, ePO core 5.2.0).
+###########################################################################
+
+tbfy:ContractingProcess a owl:Class .  tbfy:Tender a owl:Class .  tbfy:Award a owl:Class .
+tbfy:Contract a owl:Class .  tbfy:Organisation a owl:Class .
+tbfy:hasTender a owl:ObjectProperty .  tbfy:hasBuyer a owl:ObjectProperty .
+tbfy:hasAward a owl:ObjectProperty .  tbfy:hasContract a owl:ObjectProperty .  tbfy:hasSupplier a owl:ObjectProperty .
+epo:Procedure a owl:Class .  epo:AwardOutcome a owl:Class .  epo:Contract a owl:Class .
+org:Organization a owl:Class .

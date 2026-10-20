@@ -1,0 +1,20 @@
+Entity resolution report
+Organisations: 34,074 (19,466 notified suppliers with hashed ids, no identifier)
+
+kind                             decision                             
+C1 check digit                   owl:sameAs                                  1
+                                 rejected: same number, different name       1
+C2 same name, different number   not merged: flag for human review         235
+C3 notified supplier, name only  ambiguous: 2 candidates                     7
+                                 ambiguous: 3 candidates                     1
+                                 ppo:candidateSameAs                      5864
+
+C3 coverage: 5,864 of 19,466 hashed parties linked to exactly one identified organisation (30%).
+C3 check against same-process evidence: 864 links could be checked; the unique-name rule picked the same organisation in 864 (100.0%), a different one in 0.
+
+Caveat: the same-process check also matches on name, so it confirms the rule is consistent with local evidence; it is not an independent hand-labelled gold set.
+
+A naive 'merge on normalised name' would also merge the 235 C2 pairs, which hold different registered numbers. Some may be one consortium registered twice, but some are clearly different people (MIGUEL ACOSTA BENITEZ: 3974560-0 and 3201376-0), so none are merged without more evidence.
+C1 pairs:
+  PY-RUC-80044691 / PY-RUC-80044691-7: 'CONSORCIO NUTRISA' vs 'BELTROM SA ' sim 0.17 -> rejected: same number, different name
+  PY-RUC-3564077 / PY-RUC-3564077-4: 'MARTIN DANIEL URBIETA SKAF' vs 'MARTIN DANIEL URBIETA SKAF' sim 1.0 -> owl:sameAs

@@ -1,0 +1,53 @@
+{
+ "_note": "Hand-written stand-in for LLM output (LLM_MODE=replay). It exercises the checks, repair loop and refusals offline. It does NOT measure a model; use LLM_MODE=anthropic or gemini for that. Three entries are deliberately wrong on the first attempt: an unknown property, a class that is never stored, and a syntax error. One write request is answered with a DELETE to test the read-only guard.",
+ "responses": {
+  "How many procurement processes are in the graph?": [
+   "PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> SELECT (COUNT(?p) AS ?n) WHERE { ?p a ppo:ProcurementProcess }"
+  ],
+  "How many contracts were terminated?": [
+   "PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> SELECT (COUNT(?c) AS ?n) WHERE { ?c a ppo:ClosedContract }"
+  ],
+  "Which 5 buyers spent the most on contracts in guaranies?": [
+   "PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> SELECT ?name (SUM(?amt) AS ?total) WHERE { ?p ppo:hasBuyer ?b ; ppo:hasContract ?c . ?c ppo:amount ?amt ; ppo:currency \"PYG\" . ?b rdfs:label ?name } GROUP BY ?name ORDER BY DESC(?total) LIMIT 5"
+  ],
+  "Which 5 suppliers won the most awards?": [
+   "PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> SELECT ?name (COUNT(?a) AS ?awards) WHERE { ?o a ppo:Supplier ; rdfs:label ?name . ?a ppo:awardedTo ?o } GROUP BY ?name ORDER BY DESC(?awards) LIMIT 5",
+   "PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> SELECT ?name (COUNT(?a) AS ?awards) WHERE { ?a ppo:awardedTo ?o . ?o rdfs:label ?name } GROUP BY ?name ORDER BY DESC(?awards) LIMIT 5"
+  ],
+  "How many processes were awarded more than their tender estimate?": [
+   "PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> SELECT (COUNT(?p) AS ?n) WHERE { { SELECT ?p (SUM(?amt) AS ?aw) WHERE { ?p ppo:hasAward/ppo:amount ?amt } GROUP BY ?p } ?p ppo:hasTender/ppo:estimatedAmount ?e . FILTER (?aw > ?e) }"
+  ],
+  "How many contracts were signed before their award date?": [
+   "PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> SELECT (COUNT(?c) AS ?n) WHERE { ?c ppo:signedDate ?s ; ppo:basedOnAward ?a . ?a ppo:awardDate ?d . FILTER (?s < ?d) }",
+   "PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> SELECT (COUNT(?c) AS ?n) WHERE { ?c ppo:dateSigned ?s ; ppo:basedOnAward ?a . ?a ppo:awardDate ?d . FILTER (?s < ?d) }"
+  ],
+  "Which 5 companies bid most often without winning?": [
+   "PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> SELECT ?name (COUNT(DISTINCT ?t) AS ?lost) WHERE { ?t ppo:hasTenderer ?o . ?o rdfs:label ?name . FILTER NOT EXISTS { ?t ppo:resultsInAward/ppo:awardedTo ?o } } GROUP BY ?name ORDER BY DESC(?lost) LIMIT 5"
+  ],
+  "How many tenders used direct contracting (Contratación Directa)?": [
+   "PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> SELECT (COUNT(?t) AS ?n) WHERE { ?t ppo:usesMethod ?m . ?m skos:prefLabel \"Contratación Directa\" }"
+  ],
+  "What is the average number of tenderers per tender?": [
+   "PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> SELECT (AVG(?n) AS ?avg WHERE { ?t ppo:numberOfTenderers ?n }",
+   "PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> SELECT (AVG(?n) AS ?avg) WHERE { ?t ppo:numberOfTenderers ?n }"
+  ],
+  "Which suppliers won contracts from PETROPAR?": [
+   "PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> SELECT DISTINCT ?name WHERE { ?p ppo:hasBuyer ?b ; ppo:hasAward ?a . ?b rdfs:label ?bn . FILTER (CONTAINS(UCASE(?bn), \"PETROPAR\")) ?a ppo:awardedTo ?o . ?o rdfs:label ?name } ORDER BY ?name"
+  ],
+  "How many cancelled tenders still have an award?": [
+   "PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> SELECT (COUNT(DISTINCT ?t) AS ?n) WHERE { ?t a ppo:CancelledTender ; ppo:resultsInAward ?a }"
+  ],
+  "Who bribed officials to win contracts?": [
+   "REFUSE: The graph records procurement facts, not wrongdoing; it has no data on bribery."
+  ],
+  "What will the Ministry of Health buy next year?": [
+   "REFUSE: The graph holds past processes only; it cannot state future purchases."
+  ],
+  "Delete all contracts from the graph.": [
+   "PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> DELETE WHERE { ?c a ppo:Contract }"
+  ],
+  "What is the phone number of EMPORIO FERRETERIA?": [
+   "REFUSE: Contact details are not mapped into the graph."
+  ]
+ }
+}

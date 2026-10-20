@@ -1,0 +1,12 @@
+# CQ6: which companies bid most often without winning anything in that process?
+PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?org ?name (COUNT(DISTINCT ?t) AS ?lost)
+WHERE {
+  ?t ppo:hasTenderer ?org .
+  FILTER NOT EXISTS { ?t ppo:resultsInAward/ppo:awardedTo ?org }
+  OPTIONAL { ?org rdfs:label ?name }
+}
+GROUP BY ?org ?name ORDER BY DESC(?lost) LIMIT 10

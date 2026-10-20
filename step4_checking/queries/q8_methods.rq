@@ -1,0 +1,12 @@
+# Processes per procurement method. One label per method: the Step 2 views trim
+# the stray spaces of rule 18, so 'labels' is always 1.
+PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?method (COUNT(DISTINCT ?label) AS ?labels) (COUNT(DISTINCT ?t) AS ?tenders) (AVG(?n) AS ?avg_tenderers)
+WHERE {
+  ?t ppo:usesMethod ?method . ?method skos:prefLabel ?label .
+  OPTIONAL { ?t ppo:numberOfTenderers ?n }
+}
+GROUP BY ?method ORDER BY DESC(?tenders)

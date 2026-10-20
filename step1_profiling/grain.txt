@@ -1,0 +1,18 @@
+Years: 2019, 2020, 2021, 2022
+
+table                                         rows  processes  rows/process
+main                                        63,178     63,178          1.00
+parties                                    365,926     63,178          5.79
+awards                                      52,512     38,962          1.35
+awards_suppliers                            52,620     38,962          1.35
+contracts                                   50,092     36,660          1.37
+tender_tenderers                            99,660     37,371          2.67
+tender_lots                                195,419     44,224          4.42
+tender_items                               918,312     44,225         20.76
+contracts_implementation_transactions      321,617     20,641         15.58
+
+Processes per year (main.csv):
+  2019: 14,093
+  2020: 10,270
+  2021: 9,276
+  2022: 29,539

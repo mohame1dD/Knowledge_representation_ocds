@@ -1,0 +1,5 @@
+Source: Paraguay DNCP (Direccion Nacional de Contrataciones Publicas) via the OCP Data Registry
+https://data.open-contracting.org/en/publication/63
+Years used: 2019, 2020, 2021, 2022
+Licence: CC BY 4.0 https://creativecommons.org/licenses/by/4.0/
+Changes: only 9 of the published CSV tables are kept; the graph steps transform them to RDF.

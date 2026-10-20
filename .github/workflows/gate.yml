@@ -1,0 +1,17 @@
+# Same gate on GitHub: every push rebuilds the graph with the R2RML mapping and fails on a new
+# SHACL violation.
+name: shacl-gate
+on: [push, pull_request]
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r requirements.txt && pip install --no-deps morph-kgc==2.8.1
+      - run: cp .env.example .env && sed -i 's/^YEARS=.*/YEARS=2021/' .env
+      - run: python data/fetch_data.py 2021
+      - run: python step2_mapping/load_db.py
+      - run: python step2_mapping/run_mapping.py
+      - run: python tools/gate.py

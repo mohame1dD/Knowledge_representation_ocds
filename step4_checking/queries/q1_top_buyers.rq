@@ -1,0 +1,12 @@
+# CQ1 (part 1): which buyers spend the most? (finds a buyer to use in q2)
+PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?buyer ?name (COUNT(DISTINCT ?c) AS ?contracts) (SUM(?amt) AS ?total_pyg)
+WHERE {
+  ?p ppo:hasBuyer ?buyer ; ppo:hasContract ?c .
+  ?c ppo:amount ?amt ; ppo:currency "PYG" .
+  OPTIONAL { ?buyer rdfs:label ?name }
+}
+GROUP BY ?buyer ?name ORDER BY DESC(?total_pyg) LIMIT 10

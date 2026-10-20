@@ -1,0 +1,12 @@
+# CQ3 / rule 9: which contracts were signed before their award date?
+PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?c ?signed ?awarded
+WHERE {
+  ?c ppo:basedOnAward ?a ; ppo:dateSigned ?signed .
+  ?a ppo:awardDate ?awarded .
+  FILTER (?signed < ?awarded)
+}
+ORDER BY ?signed LIMIT 20

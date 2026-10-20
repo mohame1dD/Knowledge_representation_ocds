@@ -1,0 +1,11 @@
+.venv/
+.env
+data/raw/
+data/*.tar.gz
+data/procurement.db
+output/graph/
+output/protege/
+output/step4/validation_results.csv
+output/step4/triage.csv
+__pycache__/
+*.pyc

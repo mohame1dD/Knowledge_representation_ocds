@@ -1,0 +1,574 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ppo: <https://ul.edu.lb/kr/ont/ppo#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix void-ext: <http://ldf.fi/void-ext#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://ul.edu.lb/kr/id/py/void> a void:Dataset ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:title "Paraguay DNCP procurement knowledge graph" ;
+    void:classPartition <https://ul.edu.lb/kr/id/py/void/ActiveAward-partition>,
+        <https://ul.edu.lb/kr/id/py/void/ActiveContract-partition>,
+        <https://ul.edu.lb/kr/id/py/void/Award-partition>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledAward-partition>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledContract-partition>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledTender-partition>,
+        <https://ul.edu.lb/kr/id/py/void/ClosedContract-partition>,
+        <https://ul.edu.lb/kr/id/py/void/CompleteTender-partition>,
+        <https://ul.edu.lb/kr/id/py/void/Contract-partition>,
+        <https://ul.edu.lb/kr/id/py/void/Organization-partition>,
+        <https://ul.edu.lb/kr/id/py/void/PlanningTender-partition>,
+        <https://ul.edu.lb/kr/id/py/void/ProcurementMethod-partition>,
+        <https://ul.edu.lb/kr/id/py/void/ProcurementProcess-partition>,
+        <https://ul.edu.lb/kr/id/py/void/Tender-partition>,
+        <https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-partition> ;
+    void:triples 2061368 ;
+    void:vocabulary ppo: .
+
+<https://ul.edu.lb/kr/id/py/void/ActiveAward-amount-decimal> void-ext:datatypePartition [ void-ext:datatype xsd:decimal ] ;
+    void:property ppo:amount ;
+    void:triples 52276 .
+
+<https://ul.edu.lb/kr/id/py/void/ActiveAward-awardDate-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:awardDate ;
+    void:triples 52276 .
+
+<https://ul.edu.lb/kr/id/py/void/ActiveAward-awardedTo-Organization> void:classPartition [ void:class ppo:Organization ] ;
+    void:property ppo:awardedTo ;
+    void:triples 52380 .
+
+<https://ul.edu.lb/kr/id/py/void/ActiveAward-currency-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:currency ;
+    void:triples 52276 .
+
+<https://ul.edu.lb/kr/id/py/void/ActiveAward-partition> void:class ppo:ActiveAward ;
+    void:entities 52276 ;
+    void:propertyPartition <https://ul.edu.lb/kr/id/py/void/ActiveAward-amount-decimal>,
+        <https://ul.edu.lb/kr/id/py/void/ActiveAward-awardDate-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/ActiveAward-awardedTo-Organization>,
+        <https://ul.edu.lb/kr/id/py/void/ActiveAward-currency-string>,
+        <https://ul.edu.lb/kr/id/py/void/ActiveAward-statusCode-string> .
+
+<https://ul.edu.lb/kr/id/py/void/ActiveAward-statusCode-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:statusCode ;
+    void:triples 52276 .
+
+<https://ul.edu.lb/kr/id/py/void/ActiveContract-amount-decimal> void-ext:datatypePartition [ void-ext:datatype xsd:decimal ] ;
+    void:property ppo:amount ;
+    void:triples 28469 .
+
+<https://ul.edu.lb/kr/id/py/void/ActiveContract-basedOnAward-Award> void:classPartition [ void:class ppo:Award ] ;
+    void:property ppo:basedOnAward ;
+    void:triples 28469 .
+
+<https://ul.edu.lb/kr/id/py/void/ActiveContract-currency-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:currency ;
+    void:triples 28469 .
+
+<https://ul.edu.lb/kr/id/py/void/ActiveContract-dateSigned-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:dateSigned ;
+    void:triples 28459 .
+
+<https://ul.edu.lb/kr/id/py/void/ActiveContract-partition> void:class ppo:ActiveContract ;
+    void:entities 28469 ;
+    void:propertyPartition <https://ul.edu.lb/kr/id/py/void/ActiveContract-amount-decimal>,
+        <https://ul.edu.lb/kr/id/py/void/ActiveContract-basedOnAward-Award>,
+        <https://ul.edu.lb/kr/id/py/void/ActiveContract-currency-string>,
+        <https://ul.edu.lb/kr/id/py/void/ActiveContract-dateSigned-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/ActiveContract-periodEnd-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/ActiveContract-periodStart-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/ActiveContract-statusCode-string> .
+
+<https://ul.edu.lb/kr/id/py/void/ActiveContract-periodEnd-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:periodEnd ;
+    void:triples 12639 .
+
+<https://ul.edu.lb/kr/id/py/void/ActiveContract-periodStart-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:periodStart ;
+    void:triples 12628 .
+
+<https://ul.edu.lb/kr/id/py/void/ActiveContract-statusCode-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:statusCode ;
+    void:triples 28469 .
+
+<https://ul.edu.lb/kr/id/py/void/Award-amount-decimal> void-ext:datatypePartition [ void-ext:datatype xsd:decimal ] ;
+    void:property ppo:amount ;
+    void:triples 52512 .
+
+<https://ul.edu.lb/kr/id/py/void/Award-awardDate-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:awardDate ;
+    void:triples 52512 .
+
+<https://ul.edu.lb/kr/id/py/void/Award-awardedTo-Organization> void:classPartition [ void:class ppo:Organization ] ;
+    void:property ppo:awardedTo ;
+    void:triples 52620 .
+
+<https://ul.edu.lb/kr/id/py/void/Award-currency-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:currency ;
+    void:triples 52512 .
+
+<https://ul.edu.lb/kr/id/py/void/Award-partition> void:class ppo:Award ;
+    void:entities 52512 ;
+    void:propertyPartition <https://ul.edu.lb/kr/id/py/void/Award-amount-decimal>,
+        <https://ul.edu.lb/kr/id/py/void/Award-awardDate-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/Award-awardedTo-Organization>,
+        <https://ul.edu.lb/kr/id/py/void/Award-currency-string>,
+        <https://ul.edu.lb/kr/id/py/void/Award-statusCode-string> .
+
+<https://ul.edu.lb/kr/id/py/void/Award-statusCode-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:statusCode ;
+    void:triples 52498 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledAward-amount-decimal> void-ext:datatypePartition [ void-ext:datatype xsd:decimal ] ;
+    void:property ppo:amount ;
+    void:triples 222 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledAward-awardDate-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:awardDate ;
+    void:triples 222 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledAward-awardedTo-Organization> void:classPartition [ void:class ppo:Organization ] ;
+    void:property ppo:awardedTo ;
+    void:triples 226 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledAward-currency-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:currency ;
+    void:triples 222 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledAward-partition> void:class ppo:CancelledAward ;
+    void:entities 222 ;
+    void:propertyPartition <https://ul.edu.lb/kr/id/py/void/CancelledAward-amount-decimal>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledAward-awardDate-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledAward-awardedTo-Organization>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledAward-currency-string>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledAward-statusCode-string> .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledAward-statusCode-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:statusCode ;
+    void:triples 222 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledContract-amount-decimal> void-ext:datatypePartition [ void-ext:datatype xsd:decimal ] ;
+    void:property ppo:amount ;
+    void:triples 37 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledContract-basedOnAward-Award> void:classPartition [ void:class ppo:Award ] ;
+    void:property ppo:basedOnAward ;
+    void:triples 37 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledContract-currency-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:currency ;
+    void:triples 37 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledContract-dateSigned-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:dateSigned ;
+    void:triples 37 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledContract-partition> void:class ppo:CancelledContract ;
+    void:entities 37 ;
+    void:propertyPartition <https://ul.edu.lb/kr/id/py/void/CancelledContract-amount-decimal>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledContract-basedOnAward-Award>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledContract-currency-string>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledContract-dateSigned-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledContract-periodEnd-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledContract-periodStart-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledContract-statusCode-string> .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledContract-periodEnd-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:periodEnd ;
+    void:triples 14 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledContract-periodStart-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:periodStart ;
+    void:triples 14 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledContract-statusCode-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:statusCode ;
+    void:triples 37 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledTender-category-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:category ;
+    void:triples 2179 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledTender-currency-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:currency ;
+    void:triples 2178 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledTender-datePublished-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:datePublished ;
+    void:triples 2179 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledTender-estimatedAmount-decimal> void-ext:datatypePartition [ void-ext:datatype xsd:decimal ] ;
+    void:property ppo:estimatedAmount ;
+    void:triples 2153 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledTender-hasTenderer-Organization> void:classPartition [ void:class ppo:Organization ] ;
+    void:property ppo:hasTenderer ;
+    void:triples 344 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledTender-numberOfTenderers-integer> void-ext:datatypePartition [ void-ext:datatype xsd:integer ] ;
+    void:property ppo:numberOfTenderers ;
+    void:triples 133 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledTender-partition> void:class ppo:CancelledTender ;
+    void:entities 2179 ;
+    void:propertyPartition <https://ul.edu.lb/kr/id/py/void/CancelledTender-category-string>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledTender-currency-string>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledTender-datePublished-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledTender-estimatedAmount-decimal>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledTender-hasTenderer-Organization>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledTender-numberOfTenderers-integer>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledTender-resultsInAward-Award>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledTender-statusCode-string>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledTender-tenderPeriodEnd-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledTender-tenderPeriodStart-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledTender-title-string>,
+        <https://ul.edu.lb/kr/id/py/void/CancelledTender-usesMethod-ProcurementMethod> .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledTender-resultsInAward-Award> void:classPartition [ void:class ppo:Award ] ;
+    void:property ppo:resultsInAward ;
+    void:triples 170 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledTender-statusCode-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:statusCode ;
+    void:triples 2179 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledTender-tenderPeriodEnd-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:tenderPeriodEnd ;
+    void:triples 2157 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledTender-tenderPeriodStart-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:tenderPeriodStart ;
+    void:triples 2159 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledTender-title-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:title ;
+    void:triples 2179 .
+
+<https://ul.edu.lb/kr/id/py/void/CancelledTender-usesMethod-ProcurementMethod> void:classPartition [ void:class ppo:ProcurementMethod ] ;
+    void:property ppo:usesMethod ;
+    void:triples 2179 .
+
+<https://ul.edu.lb/kr/id/py/void/ClosedContract-amount-decimal> void-ext:datatypePartition [ void-ext:datatype xsd:decimal ] ;
+    void:property ppo:amount ;
+    void:triples 21584 .
+
+<https://ul.edu.lb/kr/id/py/void/ClosedContract-basedOnAward-Award> void:classPartition [ void:class ppo:Award ] ;
+    void:property ppo:basedOnAward ;
+    void:triples 21584 .
+
+<https://ul.edu.lb/kr/id/py/void/ClosedContract-currency-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:currency ;
+    void:triples 21584 .
+
+<https://ul.edu.lb/kr/id/py/void/ClosedContract-dateSigned-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:dateSigned ;
+    void:triples 21580 .
+
+<https://ul.edu.lb/kr/id/py/void/ClosedContract-partition> void:class ppo:ClosedContract ;
+    void:entities 21584 ;
+    void:propertyPartition <https://ul.edu.lb/kr/id/py/void/ClosedContract-amount-decimal>,
+        <https://ul.edu.lb/kr/id/py/void/ClosedContract-basedOnAward-Award>,
+        <https://ul.edu.lb/kr/id/py/void/ClosedContract-currency-string>,
+        <https://ul.edu.lb/kr/id/py/void/ClosedContract-dateSigned-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/ClosedContract-periodEnd-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/ClosedContract-periodStart-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/ClosedContract-statusCode-string> .
+
+<https://ul.edu.lb/kr/id/py/void/ClosedContract-periodEnd-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:periodEnd ;
+    void:triples 21584 .
+
+<https://ul.edu.lb/kr/id/py/void/ClosedContract-periodStart-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:periodStart ;
+    void:triples 21584 .
+
+<https://ul.edu.lb/kr/id/py/void/ClosedContract-statusCode-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:statusCode ;
+    void:triples 21584 .
+
+<https://ul.edu.lb/kr/id/py/void/CompleteTender-category-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:category ;
+    void:triples 41823 .
+
+<https://ul.edu.lb/kr/id/py/void/CompleteTender-currency-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:currency ;
+    void:triples 41817 .
+
+<https://ul.edu.lb/kr/id/py/void/CompleteTender-datePublished-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:datePublished ;
+    void:triples 41823 .
+
+<https://ul.edu.lb/kr/id/py/void/CompleteTender-estimatedAmount-decimal> void-ext:datatypePartition [ void-ext:datatype xsd:decimal ] ;
+    void:property ppo:estimatedAmount ;
+    void:triples 41576 .
+
+<https://ul.edu.lb/kr/id/py/void/CompleteTender-hasTenderer-Organization> void:classPartition [ void:class ppo:Organization ] ;
+    void:property ppo:hasTenderer ;
+    void:triples 99316 .
+
+<https://ul.edu.lb/kr/id/py/void/CompleteTender-numberOfTenderers-integer> void-ext:datatypePartition [ void-ext:datatype xsd:integer ] ;
+    void:property ppo:numberOfTenderers ;
+    void:triples 37238 .
+
+<https://ul.edu.lb/kr/id/py/void/CompleteTender-partition> void:class ppo:CompleteTender ;
+    void:entities 41823 ;
+    void:propertyPartition <https://ul.edu.lb/kr/id/py/void/CompleteTender-category-string>,
+        <https://ul.edu.lb/kr/id/py/void/CompleteTender-currency-string>,
+        <https://ul.edu.lb/kr/id/py/void/CompleteTender-datePublished-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/CompleteTender-estimatedAmount-decimal>,
+        <https://ul.edu.lb/kr/id/py/void/CompleteTender-hasTenderer-Organization>,
+        <https://ul.edu.lb/kr/id/py/void/CompleteTender-numberOfTenderers-integer>,
+        <https://ul.edu.lb/kr/id/py/void/CompleteTender-resultsInAward-Award>,
+        <https://ul.edu.lb/kr/id/py/void/CompleteTender-statusCode-string>,
+        <https://ul.edu.lb/kr/id/py/void/CompleteTender-tenderPeriodEnd-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/CompleteTender-tenderPeriodStart-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/CompleteTender-title-string>,
+        <https://ul.edu.lb/kr/id/py/void/CompleteTender-usesMethod-ProcurementMethod> .
+
+<https://ul.edu.lb/kr/id/py/void/CompleteTender-resultsInAward-Award> void:classPartition [ void:class ppo:Award ] ;
+    void:property ppo:resultsInAward ;
+    void:triples 52342 .
+
+<https://ul.edu.lb/kr/id/py/void/CompleteTender-statusCode-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:statusCode ;
+    void:triples 41823 .
+
+<https://ul.edu.lb/kr/id/py/void/CompleteTender-tenderPeriodEnd-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:tenderPeriodEnd ;
+    void:triples 40474 .
+
+<https://ul.edu.lb/kr/id/py/void/CompleteTender-tenderPeriodStart-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:tenderPeriodStart ;
+    void:triples 40540 .
+
+<https://ul.edu.lb/kr/id/py/void/CompleteTender-title-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:title ;
+    void:triples 41823 .
+
+<https://ul.edu.lb/kr/id/py/void/CompleteTender-usesMethod-ProcurementMethod> void:classPartition [ void:class ppo:ProcurementMethod ] ;
+    void:property ppo:usesMethod ;
+    void:triples 41823 .
+
+<https://ul.edu.lb/kr/id/py/void/Contract-amount-decimal> void-ext:datatypePartition [ void-ext:datatype xsd:decimal ] ;
+    void:property ppo:amount ;
+    void:triples 50090 .
+
+<https://ul.edu.lb/kr/id/py/void/Contract-basedOnAward-Award> void:classPartition [ void:class ppo:Award ] ;
+    void:property ppo:basedOnAward ;
+    void:triples 50090 .
+
+<https://ul.edu.lb/kr/id/py/void/Contract-currency-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:currency ;
+    void:triples 50090 .
+
+<https://ul.edu.lb/kr/id/py/void/Contract-dateSigned-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:dateSigned ;
+    void:triples 50076 .
+
+<https://ul.edu.lb/kr/id/py/void/Contract-partition> void:class ppo:Contract ;
+    void:entities 50090 ;
+    void:propertyPartition <https://ul.edu.lb/kr/id/py/void/Contract-amount-decimal>,
+        <https://ul.edu.lb/kr/id/py/void/Contract-basedOnAward-Award>,
+        <https://ul.edu.lb/kr/id/py/void/Contract-currency-string>,
+        <https://ul.edu.lb/kr/id/py/void/Contract-dateSigned-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/Contract-periodEnd-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/Contract-periodStart-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/Contract-statusCode-string> .
+
+<https://ul.edu.lb/kr/id/py/void/Contract-periodEnd-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:periodEnd ;
+    void:triples 34237 .
+
+<https://ul.edu.lb/kr/id/py/void/Contract-periodStart-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:periodStart ;
+    void:triples 34226 .
+
+<https://ul.edu.lb/kr/id/py/void/Contract-statusCode-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:statusCode ;
+    void:triples 50090 .
+
+<https://ul.edu.lb/kr/id/py/void/Organization-country-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:country ;
+    void:triples 13491 .
+
+<https://ul.edu.lb/kr/id/py/void/Organization-identifier-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:identifier ;
+    void:triples 14391 .
+
+<https://ul.edu.lb/kr/id/py/void/Organization-identifierScheme-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:identifierScheme ;
+    void:triples 14391 .
+
+<https://ul.edu.lb/kr/id/py/void/Organization-label-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property rdfs:label ;
+    void:triples 33979 .
+
+<https://ul.edu.lb/kr/id/py/void/Organization-partition> void:class ppo:Organization ;
+    void:entities 34660 ;
+    void:propertyPartition <https://ul.edu.lb/kr/id/py/void/Organization-country-string>,
+        <https://ul.edu.lb/kr/id/py/void/Organization-identifier-string>,
+        <https://ul.edu.lb/kr/id/py/void/Organization-identifierScheme-string>,
+        <https://ul.edu.lb/kr/id/py/void/Organization-label-string> .
+
+<https://ul.edu.lb/kr/id/py/void/PlanningTender-partition> void:class ppo:PlanningTender ;
+    void:entities 17042 ;
+    void:propertyPartition <https://ul.edu.lb/kr/id/py/void/PlanningTender-statusCode-string> .
+
+<https://ul.edu.lb/kr/id/py/void/PlanningTender-statusCode-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:statusCode ;
+    void:triples 17042 .
+
+<https://ul.edu.lb/kr/id/py/void/ProcurementMethod-partition> void:class ppo:ProcurementMethod ;
+    void:entities 27 ;
+    void:propertyPartition <https://ul.edu.lb/kr/id/py/void/ProcurementMethod-prefLabel-string> .
+
+<https://ul.edu.lb/kr/id/py/void/ProcurementMethod-prefLabel-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property skos:prefLabel ;
+    void:triples 27 .
+
+<https://ul.edu.lb/kr/id/py/void/ProcurementProcess-bundleYear-integer> void-ext:datatypePartition [ void-ext:datatype xsd:integer ] ;
+    void:property ppo:bundleYear ;
+    void:triples 63178 .
+
+<https://ul.edu.lb/kr/id/py/void/ProcurementProcess-hasAward-Award> void:classPartition [ void:class ppo:Award ] ;
+    void:property ppo:hasAward ;
+    void:triples 52512 .
+
+<https://ul.edu.lb/kr/id/py/void/ProcurementProcess-hasBuyer-Organization> void:classPartition [ void:class ppo:Organization ] ;
+    void:property ppo:hasBuyer ;
+    void:triples 63170 .
+
+<https://ul.edu.lb/kr/id/py/void/ProcurementProcess-hasContract-Contract> void:classPartition [ void:class ppo:Contract ] ;
+    void:property ppo:hasContract ;
+    void:triples 50090 .
+
+<https://ul.edu.lb/kr/id/py/void/ProcurementProcess-hasTender-Tender> void:classPartition [ void:class ppo:Tender ] ;
+    void:property ppo:hasTender ;
+    void:triples 63178 .
+
+<https://ul.edu.lb/kr/id/py/void/ProcurementProcess-ocid-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:ocid ;
+    void:triples 63178 .
+
+<https://ul.edu.lb/kr/id/py/void/ProcurementProcess-partition> void:class ppo:ProcurementProcess ;
+    void:entities 63178 ;
+    void:propertyPartition <https://ul.edu.lb/kr/id/py/void/ProcurementProcess-bundleYear-integer>,
+        <https://ul.edu.lb/kr/id/py/void/ProcurementProcess-hasAward-Award>,
+        <https://ul.edu.lb/kr/id/py/void/ProcurementProcess-hasBuyer-Organization>,
+        <https://ul.edu.lb/kr/id/py/void/ProcurementProcess-hasContract-Contract>,
+        <https://ul.edu.lb/kr/id/py/void/ProcurementProcess-hasTender-Tender>,
+        <https://ul.edu.lb/kr/id/py/void/ProcurementProcess-ocid-string> .
+
+<https://ul.edu.lb/kr/id/py/void/Tender-category-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:category ;
+    void:triples 46136 .
+
+<https://ul.edu.lb/kr/id/py/void/Tender-currency-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:currency ;
+    void:triples 46128 .
+
+<https://ul.edu.lb/kr/id/py/void/Tender-datePublished-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:datePublished ;
+    void:triples 46136 .
+
+<https://ul.edu.lb/kr/id/py/void/Tender-estimatedAmount-decimal> void-ext:datatypePartition [ void-ext:datatype xsd:decimal ] ;
+    void:property ppo:estimatedAmount ;
+    void:triples 45844 .
+
+<https://ul.edu.lb/kr/id/py/void/Tender-hasTenderer-Organization> void:classPartition [ void:class ppo:Organization ] ;
+    void:property ppo:hasTenderer ;
+    void:triples 99660 .
+
+<https://ul.edu.lb/kr/id/py/void/Tender-numberOfTenderers-integer> void-ext:datatypePartition [ void-ext:datatype xsd:integer ] ;
+    void:property ppo:numberOfTenderers ;
+    void:triples 37371 .
+
+<https://ul.edu.lb/kr/id/py/void/Tender-partition> void:class ppo:Tender ;
+    void:entities 63178 ;
+    void:propertyPartition <https://ul.edu.lb/kr/id/py/void/Tender-category-string>,
+        <https://ul.edu.lb/kr/id/py/void/Tender-currency-string>,
+        <https://ul.edu.lb/kr/id/py/void/Tender-datePublished-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/Tender-estimatedAmount-decimal>,
+        <https://ul.edu.lb/kr/id/py/void/Tender-hasTenderer-Organization>,
+        <https://ul.edu.lb/kr/id/py/void/Tender-numberOfTenderers-integer>,
+        <https://ul.edu.lb/kr/id/py/void/Tender-resultsInAward-Award>,
+        <https://ul.edu.lb/kr/id/py/void/Tender-statusCode-string>,
+        <https://ul.edu.lb/kr/id/py/void/Tender-tenderPeriodEnd-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/Tender-tenderPeriodStart-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/Tender-title-string>,
+        <https://ul.edu.lb/kr/id/py/void/Tender-usesMethod-ProcurementMethod> .
+
+<https://ul.edu.lb/kr/id/py/void/Tender-resultsInAward-Award> void:classPartition [ void:class ppo:Award ] ;
+    void:property ppo:resultsInAward ;
+    void:triples 52512 .
+
+<https://ul.edu.lb/kr/id/py/void/Tender-statusCode-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:statusCode ;
+    void:triples 63172 .
+
+<https://ul.edu.lb/kr/id/py/void/Tender-tenderPeriodEnd-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:tenderPeriodEnd ;
+    void:triples 44763 .
+
+<https://ul.edu.lb/kr/id/py/void/Tender-tenderPeriodStart-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:tenderPeriodStart ;
+    void:triples 44831 .
+
+<https://ul.edu.lb/kr/id/py/void/Tender-title-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:title ;
+    void:triples 46136 .
+
+<https://ul.edu.lb/kr/id/py/void/Tender-usesMethod-ProcurementMethod> void:classPartition [ void:class ppo:ProcurementMethod ] ;
+    void:property ppo:usesMethod ;
+    void:triples 46136 .
+
+<https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-category-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:category ;
+    void:triples 2128 .
+
+<https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-currency-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:currency ;
+    void:triples 2127 .
+
+<https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-datePublished-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:datePublished ;
+    void:triples 2128 .
+
+<https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-estimatedAmount-decimal> void-ext:datatypePartition [ void-ext:datatype xsd:decimal ] ;
+    void:property ppo:estimatedAmount ;
+    void:triples 2109 .
+
+<https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-partition> void:class ppo:UnsuccessfulTender ;
+    void:entities 2128 ;
+    void:propertyPartition <https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-category-string>,
+        <https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-currency-string>,
+        <https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-datePublished-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-estimatedAmount-decimal>,
+        <https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-statusCode-string>,
+        <https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-tenderPeriodEnd-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-tenderPeriodStart-dateTime>,
+        <https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-title-string>,
+        <https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-usesMethod-ProcurementMethod> .
+
+<https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-statusCode-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:statusCode ;
+    void:triples 2128 .
+
+<https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-tenderPeriodEnd-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:tenderPeriodEnd ;
+    void:triples 2128 .
+
+<https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-tenderPeriodStart-dateTime> void-ext:datatypePartition [ void-ext:datatype xsd:dateTime ] ;
+    void:property ppo:tenderPeriodStart ;
+    void:triples 2128 .
+
+<https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-title-string> void-ext:datatypePartition [ void-ext:datatype xsd:string ] ;
+    void:property ppo:title ;
+    void:triples 2128 .
+
+<https://ul.edu.lb/kr/id/py/void/UnsuccessfulTender-usesMethod-ProcurementMethod> void:classPartition [ void:class ppo:ProcurementMethod ] ;
+    void:property ppo:usesMethod ;
+    void:triples 2128 .
+

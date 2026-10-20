@@ -1,0 +1,13 @@
+# CQ2 / rule 11: which processes awarded more than the tender estimate, and by how much?
+PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?p ?estimate ?awarded ((?awarded / ?estimate - 1) * 100 AS ?over_pct)
+WHERE {
+  { SELECT ?p (SUM(?amt) AS ?awarded)
+    WHERE { ?p ppo:hasAward ?a . ?a ppo:amount ?amt } GROUP BY ?p }
+  ?p ppo:hasTender ?t . ?t ppo:estimatedAmount ?estimate .
+  FILTER (?estimate > 0 && ?awarded > ?estimate)
+}
+ORDER BY DESC(?over_pct) LIMIT 20

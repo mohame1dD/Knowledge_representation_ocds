@@ -1,0 +1,40 @@
+1. Alignment check: 14 external terms used, missing from external/: none
+2. Ontology alone: consistent
+   Unsatisfiable classes: none
+   ppo:ActiveAward          subClassOf ppo:Award
+   ppo:ActiveContract       subClassOf ppo:Contract
+   ppo:ActiveTender         subClassOf ppo:Tender
+   ppo:Award                subClassOf epo:AwardOutcome, tbfy:Award
+   ppo:Buyer                subClassOf ppo:Organization
+   ppo:CancelledAward       subClassOf ppo:Award
+   ppo:CancelledContract    subClassOf ppo:Contract
+   ppo:CancelledTender      subClassOf ppo:Tender
+   ppo:ClosedContract       subClassOf ppo:Contract
+   ppo:CompleteTender       subClassOf ppo:Tender
+   ppo:Contract             subClassOf epo:Contract, tbfy:Contract
+   ppo:Organization         subClassOf org:Organization, tbfy:Organisation
+   ppo:PendingAward         subClassOf ppo:Award
+   ppo:PendingContract      subClassOf ppo:Contract
+   ppo:PlanningTender       subClassOf ppo:Tender
+   ppo:ProcurementMethod    subClassOf owl:Thing
+   ppo:ProcurementProcess   subClassOf epo:Procedure, tbfy:ContractingProcess
+   ppo:Supplier             subClassOf ppo:Organization
+   ppo:Tender               subClassOf tbfy:Tender
+   ppo:Tenderer             subClassOf ppo:Organization
+   ppo:UnsuccessfulAward    subClassOf ppo:Award
+   ppo:UnsuccessfulTender   subClassOf ppo:Tender
+3. Data sample: 300 processes, 8,424 triples (asserted status classes removed)
+   HermiT time: 38s
+   consistent
+   inferred Buyer                   139 individuals
+   inferred Supplier                188 individuals
+   inferred Tenderer                266 individuals
+   inferred ClosedContract            0 individuals
+   inferred ActiveContract          216 individuals
+   inferred CompleteTender          214 individuals
+   inferred PlanningTender           70 individuals
+   inferred UnsuccessfulTender        9 individuals
+4a. Unsuccessful tender with an award: INCONSISTENT (caught, as intended)
+4b. Contract with two awards: consistent, no complaint
+    ... same data + 'a1 differentFrom a2': INCONSISTENT
+    So OWL silently concluded the two awards are the SAME award (functional property, no unique name assumption). It only complains once told they differ. SHACL (step 4) counts values and reports the second award directly.

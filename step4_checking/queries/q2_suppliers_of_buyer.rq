@@ -1,0 +1,15 @@
+# CQ1: which suppliers won contracts from a given buyer, and for how much?
+# The buyer IRI is the top buyer of q1; change it to ask about another one.
+PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?supplier ?name (COUNT(?c) AS ?contracts) (SUM(?amt) AS ?total_pyg)
+WHERE {
+  ?p ppo:hasBuyer ?buyer ; ppo:hasContract ?c .
+  ?c ppo:basedOnAward ?a ; ppo:amount ?amt ; ppo:currency "PYG" .
+  ?a ppo:awardedTo ?supplier .
+  OPTIONAL { ?supplier rdfs:label ?name }
+  FILTER (?buyer = <BUYER>)
+}
+GROUP BY ?supplier ?name ORDER BY DESC(?total_pyg) LIMIT 10

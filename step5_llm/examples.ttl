@@ -1,0 +1,58 @@
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:   <https://ul.edu.lb/kr/id/py/examples/> .
+
+# Worked examples: a question and its query, stored as RDF (the SHACL vocabulary SIB's
+# endpoints use to publish examples, and what sparql-llm loads). ask.py puts the 3 that
+# share the most words with the user's question into the prompt, for the model to imitate.
+# None of them is one of the 15 test questions in tests.jsonl.
+
+ex:1 a sh:SPARQLExecutable ;
+    rdfs:comment "How many awards are there?" ;
+    sh:select """PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#>
+SELECT (COUNT(?a) AS ?n) WHERE { ?a a ppo:Award }""" .
+
+ex:2 a sh:SPARQLExecutable ;
+    rdfs:comment "How many contracts are still active?" ;
+    sh:select """PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#>
+SELECT (COUNT(?c) AS ?n) WHERE { ?c a ppo:ActiveContract }""" .
+
+ex:3 a sh:SPARQLExecutable ;
+    rdfs:comment "Which tenders did EMPORIO FERRETERIA S.R.L. bid on?" ;
+    sh:select """PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?tender ?title WHERE {
+  ?org rdfs:label "EMPORIO FERRETERIA S.R.L." .
+  ?tender ppo:hasTenderer ?org .
+  OPTIONAL { ?tender ppo:title ?title }
+} LIMIT 20""" .
+
+ex:4 a sh:SPARQLExecutable ;
+    rdfs:comment "What is the total amount awarded to INDUSTRIA PARAGUAYA DE GASES S.R.L. in guaranies?" ;
+    sh:select """PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT (SUM(?amt) AS ?total) WHERE {
+  ?org rdfs:label "INDUSTRIA PARAGUAYA DE GASES S.R.L." .
+  ?a ppo:awardedTo ?org ; ppo:amount ?amt ; ppo:currency "PYG" .
+}""" .
+
+ex:5 a sh:SPARQLExecutable ;
+    rdfs:comment "Which buyers ran the most tenders?" ;
+    sh:select """PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?name (COUNT(?p) AS ?tenders) WHERE {
+  ?p ppo:hasBuyer ?b . ?b rdfs:label ?name .
+} GROUP BY ?name ORDER BY DESC(?tenders) LIMIT 5""" .
+
+ex:6 a sh:SPARQLExecutable ;
+    rdfs:comment "How many tenders received more than 5 bids?" ;
+    sh:select """PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#>
+SELECT (COUNT(?t) AS ?n) WHERE { ?t ppo:numberOfTenderers ?k . FILTER (?k > 5) }""" .
+
+ex:7 a sh:SPARQLExecutable ;
+    rdfs:comment "Which contracts were signed in 2021 and for how much?" ;
+    sh:select """PREFIX ppo: <https://ul.edu.lb/kr/ont/ppo#>
+SELECT ?c ?signed ?amt WHERE {
+  ?c ppo:dateSigned ?signed ; ppo:amount ?amt .
+  FILTER (YEAR(?signed) = 2021)
+} ORDER BY DESC(?amt) LIMIT 10""" .
